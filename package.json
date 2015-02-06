@@ -1,0 +1,22 @@
+{
+  "name": "mean",
+  "version": "1.0.0",
+  "description": "mongo express angular node boilerplate",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CarlosLM-NCC/mean.git"
+  },
+  "keywords": [
+    "mean"
+  ],
+  "author": "CLM",
+  "license": "GPL",
+  "bugs": {
+    "url": "https://github.com/CarlosLM-NCC/mean/issues"
+  },
+  "homepage": "https://github.com/CarlosLM-NCC/mean"
+}
