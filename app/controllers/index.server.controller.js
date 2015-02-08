@@ -1,3 +1,10 @@
 exports.render = function(req,res){
-    res.send('hola mundo');
+    if (req.session.lastVisit){
+        console.log(req.session.lastVisit);        
+    }
+    req.session.lastVisit = new Date();
+    
+    res.render('index',{
+        tittle : 'Hola Mundo'
+    })
 };
