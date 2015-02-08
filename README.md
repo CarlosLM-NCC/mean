@@ -1,4 +1,4 @@
 # mean
 mongo express angular node
-nada especial. De momento
+Solo un básico bootstrapp de una arquitectura mean.
 
