@@ -2,8 +2,145 @@
  * Created by Carlos on 09/02/2015.
  */
 'use strict';
-// Cargar el modelo Mongoose 'User'
-var User = require('mongoose').model('User');
+// Cargar el modelo Mongoose 'User' y passport
+var User = require('mongoose').model('User'),
+    passport = require('passport');
+
+// Crear un nuevo método controller manejador de errores
+var getErrorMessage = function(err){
+    //Definir la variable de mensajes de error
+    var message = '';
+    //Si ocuure un error interno de MongoDb obtener el mensaje
+    if(err.code){
+        switch (err.code){
+            //Si ocurre un error con un indice determinado configura el mensaje de error
+            case 11000:
+            case 11001:
+                message = 'Usuario ya existe';
+                break;
+            //Si ocurre un error general configura el mensaje de error
+            default:
+                message = 'Se ha producido un error';
+        }
+    }else{
+        //Grabar el primer mensaje de error de una lista de posibles errores
+        for(var errName in err.errors){
+            if(err.errors[errName].message) message = err.errors[errName].message;
+        }
+    }
+    
+    //Devolver el mensaje de error
+    return message;
+};
+
+//Crear un nuevo método controller que renderiza la página signin
+exports.renderSignin = function(req,res,next){
+    //Si el usuario no esta conectado rendirizar la página signin, en otro caso a la pagina principal
+    if(!req.user){
+        //usa el objeto response para renderizar la página signin
+        res.render('/signin',{
+            //Configurar la variable 'title' de la página
+            title: 'Formulario de acceso',
+            //Configura la variable del mensaje flash
+            messages: req.flash('error')|| req.flash('info')            
+        });
+    }else{
+        return res.redirect('/')        
+    }    
+};
+//Crear un nuevo método controller que renderiza la página signup
+exports.renderSignup = function (req,res,next) {
+    //Si el usuario no esta conectado rendirizar la página signup, en otro caso a la pagina principal
+    if(!req.user){
+        //usa el objeto response para renderizar la página sigup
+        res.render('/signup',{
+            //Configurar la variable 'title' de la página
+            title: 'Formulario registro',
+            //Configura la variable del mensaje flash
+            messages: req.flash('error')|| req.flash('info')
+        });
+    }else{
+        return res.redirect('/')
+    }
+};
+
+//Crea un nuevo método controller que crea nuevos users
+exports.signup = function(req,res,next){
+    // Si user no esta conectado, crear y hacer login a un nuevo user, en otro caso redireccionar a la página principal de la aplicación
+    if(!req.user){
+        //Crea una nueva instancia del modelo 'User'
+        var user = new User(req.body);
+        var message = null;
+        
+        //Configurar la propiedad user provider
+        user.provider = 'local';
+        //Intenta salvar el nuevo documento user
+        user.save(function(err){
+            //Si ocurre un error, usa el mensaje flash para reportar el error
+            if(err){
+                //Usa el método de manejo de errores para obtener el error
+                var message = getErrorMessage(err);
+                //Configura los mensajes flash
+                req.flash('error', message);
+                //Redirecciona al usuario de vuelta a la página signup
+                return res.redirect('/signup');
+            }
+            //Si el usuario fué creado de modo correcto usa el método login de Passport para hacer login
+            req.login(user,function(err){
+                //Si ocurre un error de login moverse al siguiente middleware
+                if(err){ return next(err)};
+                //Redireccionar al usuario de vuelta a la página de inicio
+                return res.redirect('/');                
+            });            
+        });
+    }else{
+        return res.redirect('/');
+    }    
+};
+
+//Crear un nuevo método controller que crea nuevos usuarios 'OAuth'
+exports.saveOAuthUserProfile = function(req, profile, done){
+    //Prueba a encontrar un documento user quefue registrado usando el actual provider OAuth
+    User.findOne({
+        provider: profile.provider,
+        providerId: profile.providerId        
+    },function(err,user){
+        //Si ha ocurrido un error continua al siguiente middleware
+        if(err){
+            return done(err);            
+        }else{
+            //Si un usuario no ha pododo ser encontrado, crea un nuevo user, en otro caso, continúa al siguiente
+            if(!user){
+                //Configura un posible username base username
+                var possibleUsername = profile.username || ((profile.email)?profile.email.split('@')[0]:);
+                
+                //Encuentra un username único disponible
+                User.findUniqueUsername(possibleUsername.null,function(availableUsername){
+                    //Configura el nombre de usuario disponible
+                    profile.username = availableUsername;
+                    //Crear el user
+                    user =new User(profile);
+                    //Intenta salvar el nuevo documento user
+                    user.save(function(err){
+                        //Si error continúa al siguiente middleware
+                        return done(err,user);                        
+                    });                    
+                });
+            }else{
+                //Continúa al siguiente middleware
+                return done(err,user);                
+            }
+        }
+    });
+};
+// Crea el método controller para el signing out
+exports.signout = function(req,res){
+    //Usa el método logout de passport para hacer logout
+    req.logout();
+    //Redirecciona a la página principal de la aplicación
+    res.redirect('/');
+};
+
 // Cargar un nuevo método controller 'create'
 exports.create = function(req,res,next){
     //Crear una nueva instancia del modelo Mongoose 'User'
@@ -32,9 +169,8 @@ exports.list = function(req,res,next){
             res.json(users);            
         }
     })
-}; 
-
-//Crear un nuevo metodo controller
+};
+//Crear un nuevo metodo controller read
 exports.read = function(req,res){
     //Usa el objeto response para enviar una respuesta JSON
     res.json(req.user);
