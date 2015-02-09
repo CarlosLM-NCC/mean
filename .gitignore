@@ -28,3 +28,5 @@ node_modules
 .lock-wscript
 # IntelliJ IDEA local workspace
 .idea
+# Data directory mongodb
+data

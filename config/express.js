@@ -12,28 +12,41 @@ var config = require('./config'),
     methodOverride = require('method-override');
 
 module.exports = function (){
+    // Crear nueva instancia de la aplicación Express
     var app = express();
+    
+    // Usar la variable Node_ENV para activar los middleware 'morgan' 'logger' o 'compress'
     if (process.env.NODE_ENV === 'development'){
         app.use(morgan('dev'));
     }else if(process.env.NODE_ENV === 'production'){
         app.use(compress());
     }
+    // Usar las funciones middleware body-parser u method-override
     app.use(bodyParser.urlencoded({
         extended: true
     }));
     app.use(bodyParser.json());
     app.use(methodOverride());
     
+    //Configurar el middlewaere 'session'
     app.use(session({
         saveUninitialized: true,
         resave: true,
         secret: config.sessionSecret
     }));
+    
+    //Configurar el motor de las vistas de la aplicacion y el directorio de las 'views'
     app.set('views','./app/views');
     app.set('view engine', 'ejs');
     
+    //Cargar los archivos de enrutamiento
     require('../app/routes/index.server.routes.js')(app);
+    require('../app/routes/users.server.routes.js')(app);
+    
+    //Configurar el servidor de archivos estáticos
     app.use(express.static('./public'));
+    
+    //Devolver la instancia de la aplicación Express
     return app;
     
 };
