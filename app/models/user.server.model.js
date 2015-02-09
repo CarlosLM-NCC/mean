@@ -60,7 +60,7 @@ UserSchema.virtual('fullName').get(function(){
 });
 
 //Usar un middleware pre-save para hashear la contraseña
-UserSchema.pre(save,function(next){
+UserSchema.pre('save',function(next){
     if(this.password){
         this.salt = new Buffer(crypto.randomBytes(16).toString('base64'),'base64');
         this.password =this.hashPassword(this.password);
