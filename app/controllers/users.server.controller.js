@@ -112,7 +112,7 @@ exports.saveOAuthUserProfile = function(req, profile, done){
             //Si un usuario no ha pododo ser encontrado, crea un nuevo user, en otro caso, continúa al siguiente
             if(!user){
                 //Configura un posible username base username
-                var possibleUsername = profile.username || ((profile.email)?profile.email.split('@')[0]:);
+                var possibleUsername = profile.username || ((profile.email)?profile.email.split('@')[0]:'');
                 
                 //Encuentra un username único disponible
                 User.findUniqueUsername(possibleUsername.null,function(availableUsername){
