@@ -39,7 +39,7 @@ exports.read = function(req,res){
     //Usa el objeto response para enviar una respuesta JSON
     res.json(req.user);
 };
-//Crea un middleware que se ejecutara antes que otra cosa
+//Crea un middleware que  poblara user con el param id que se le pase
 exports.userById = function (req,res,next,id) {
     //Usa el método static 'findOne' de 'User' para recuperar un usuario
     User.findOne({'_id': id},function(err,user){
@@ -53,4 +53,29 @@ exports.userById = function (req,res,next,id) {
         }        
     })
 };
-
+//Crear un método controller 'update'
+exports.update = function(req,res,next){
+    User.findByIdAndUpdate(req.user.id,req.body,function(err,user){
+        if (err){
+            next(err)
+        }else{
+            res.json(user);                       
+        }
+        
+    })
+    
+};
+//Crear un nuevo método controller 'delete'
+exports.delete = function(req,res,next){
+    //Usamos el método 'remove' de la instancia 'User' para eliminar un usuario
+    req.user.remove(function(err){
+        if(err){
+            //Llama al siguente middleware con un mensaje de error
+            return next(err);            
+        }else{
+            // Usa el objeto response para mandar una respuesta JSON
+            res.json(req.user) ;           
+        }        
+    });
+    
+};

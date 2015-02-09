@@ -8,10 +8,13 @@ var users = require('../controllers/users.server.controller');
 module.exports = function(app){
     //Configura la ruta base para 'users'
     app.route('/users')
-    .post(users.create)
-    .get(users.list);
+        .post(users.create)
+        .get(users.list);
     app.route('/users/:userId')
-        .get(users.read);
-    app.param('userId',users.userById);
+        .get(users.read)
+        .put(users.update)
+        .delete(users.delete)
+        //Configura el parámetro middleware 'userId', poblara req.user
+        app.param('userId',users.userById);
 };
 
