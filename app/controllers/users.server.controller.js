@@ -32,5 +32,25 @@ exports.list = function(req,res,next){
             res.json(users);            
         }
     })
+}; 
+
+//Crear un nuevo metodo controller
+exports.read = function(req,res){
+    //Usa el objeto response para enviar una respuesta JSON
+    res.json(req.user);
+};
+//Crea un middleware que se ejecutara antes que otra cosa
+exports.userById = function (req,res,next,id) {
+    //Usa el método static 'findOne' de 'User' para recuperar un usuario
+    User.findOne({'_id': id},function(err,user){
+        if (err){
+            //Llama al siguiente middleware con un mensaje de error
+            return next(err);            
+        }else{
+            //Asigna el valor de user al request
+            req.user = user; 
+            next();
+        }        
+    })
 };
 
