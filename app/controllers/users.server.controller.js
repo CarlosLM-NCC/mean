@@ -18,7 +18,19 @@ exports.create = function(req,res,next){
             res.json(user);
         }
         
+    })    
+};
+//Crear un nuevo método controller 'list'
+exports.list = function(req,res,next){
+    //Usa el método static 'User' 'find' para recuperar la lista de usuarios 
+    User.find({}, function(err,users){
+        if (err){
+            //Llama al siguiente middleware con el mensaje de error
+            return next(err);       
+        }else{
+            //Usa el objeto response para enviar una respuesta JSON
+            res.json(users);            
+        }
     })
-    
 };
 
