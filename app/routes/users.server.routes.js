@@ -9,11 +9,11 @@ module.exports = function(app){
     //Configura la ruta base para 'users'
     app.route('/users')
         .post(users.create)
-        .get(users.list);
+        .get(users.list) ;
     app.route('/users/:userId')
         .get(users.read)
         .put(users.update)
-        .delete(users.delete)
+        .delete(users.delete);
         //Configura el parámetro middleware 'userId', poblara req.user
         app.param('userId',users.userById);
 };
