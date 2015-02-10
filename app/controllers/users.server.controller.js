@@ -100,7 +100,7 @@ exports.signup = function(req,res,next){
 
 //Crear un nuevo método controller que crea nuevos usuarios 'OAuth'
 exports.saveOAuthUserProfile = function(req, profile, done){
-    //Prueba a encontrar un documento user quefue registrado usando el actual provider OAuth
+    //Prueba a encontrar un documento user que fue registrado usando el actual provider OAuth
     User.findOne({
         provider: profile.provider,
         providerId: profile.providerId        
@@ -115,7 +115,7 @@ exports.saveOAuthUserProfile = function(req, profile, done){
                 var possibleUsername = profile.username || ((profile.email)?profile.email.split('@')[0]:'');
                 
                 //Encuentra un username único disponible
-                User.findUniqueUsername(possibleUsername.null,function(availableUsername){
+                User.findUniqueUsername(possibleUsername,null,function(availableUsername){
                     //Configura el nombre de usuario disponible
                     profile.username = availableUsername;
                     //Crear el user

@@ -79,21 +79,21 @@ UserSchema.methods.authenticate = function(password){
 };
 
 //Encontrar posibles username no usados
-UserSchema.statics.findUniqueUsername = function(username,suffix,cb){
+UserSchema.statics.findUniqueUsername = function(username,suffix,callback){
     var _this = this;
     //Añadir un sufijo username
-    var possibleUsername = username + (suffix||'');
+    var possibleUsername = username + (suffix ||'');
     //Usar el método findOne del model 'User' para encontrar un username único disponible
     _this.findOne({username: possibleUsername},function(err,user){
         //Si ocurre un error llama al callback con un valor null
         if(!err){
             //Si encuentra un username unico disponible llama al callback
             if(!user){
-                cb(possibleUsername);
+                callback(possibleUsername);
             }else{ 
-                return _this.findUniqueUsername(username,(suffix||0)+1,cb);
+                return _this.findUniqueUsername(username,(suffix||0) +1, callback);
             }
-        }
+        }else{callback(null)};
     });
 };
 //Crear el modelo 'user' a partir del 'UserSchema'

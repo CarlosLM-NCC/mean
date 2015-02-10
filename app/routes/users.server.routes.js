@@ -21,6 +21,23 @@ module.exports = function(app){
             failureRedirect: '/signin',
             failureFlash: true
         }));
+    
+    //Configurar las rutas Google OAuth
+    app.get('/oauth/google', passport.authenticate('google',{
+        scope:[           
+            'https://www.googleapis.com/auth/userinfo.profile',
+            'https://www.googleapis.com/auth/userinfo.email'
+        ],
+        failureRedirect: '/signin',
+        image_aspect_ratio: 'square',
+        image_size : 50
+
+    }));
+    app.get('/oauth/google/callback', passport.authenticate('google',{
+        failureRedirect: '/signin',
+        successRedirect: '/'
+    }));
+    
     //Configurar la route 'signout'
     app.get('/signout',users.signout);
     
