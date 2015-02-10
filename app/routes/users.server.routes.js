@@ -9,7 +9,7 @@ var users = require('../controllers/users.server.controller'),
 //Definir el método del modulo routes
 module.exports = function(app){
     //Configurar las rutas 'sigup'
-    app.route('(signup')
+    app.route('/signup')
         .get(users.renderSignup)
         .post(users.signup);
     
