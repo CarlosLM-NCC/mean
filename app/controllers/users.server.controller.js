@@ -38,7 +38,7 @@ exports.renderSignin = function(req,res,next){
     //Si el usuario no esta conectado rendirizar la página signin, en otro caso a la pagina principal
     if(!req.user){
         //usa el objeto response para renderizar la página signin
-        res.render('/signin',{
+        res.render('signin',{
             //Configurar la variable 'title' de la página
             title: 'Formulario de acceso',
             //Configura la variable del mensaje flash
@@ -53,7 +53,7 @@ exports.renderSignup = function (req,res,next) {
     //Si el usuario no esta conectado rendirizar la página signup, en otro caso a la pagina principal
     if(!req.user){
         //usa el objeto response para renderizar la página sigup
-        res.render('/signup',{
+        res.render('signup',{
             //Configurar la variable 'title' de la página
             title: 'Formulario registro',
             //Configura la variable del mensaje flash
