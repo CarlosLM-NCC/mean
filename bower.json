@@ -1,0 +1,24 @@
+{
+  "name": "mean",
+  "version": "0.0.0",
+  "homepage": "https://github.com/CarlosLM-NCC/mean",
+  "authors": [
+    "NCC-CarlosLM <c.lopezmotos@gmail.com>"
+  ],
+  "description": "simple mean boilerplate",
+  "moduleType": [
+    "node"
+  ],
+  "keywords": [
+    "mean"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
