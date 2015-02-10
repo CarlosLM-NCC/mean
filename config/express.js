@@ -10,6 +10,7 @@ var config = require('./config'),
     compress = require('compression'),
     morgan = require('morgan'),
     methodOverride = require('method-override'),
+    flash = require('connect-flash'),
     passport = require('passport');
 
 
@@ -41,6 +42,7 @@ module.exports = function (){
     app.set('views','./app/views');
     app.set('view engine', 'ejs');
     
+    app.use(flash());
     //Inicializa passport en la instancia de la aplicación express
     app.use(passport.initialize());
     app.use(passport.session());

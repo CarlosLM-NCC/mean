@@ -57,7 +57,7 @@ exports.renderSignup = function (req,res,next) {
             //Configurar la variable 'title' de la página
             title: 'Formulario registro',
             //Configura la variable del mensaje flash
-            messages: req.flash('error')|| req.flash('info')
+            messages: req.flash('error')
         });
     }else{
         return res.redirect('/')
