@@ -5,17 +5,18 @@
 </head>
 <body>
  <% if ( userFullName){ %>
-    <h2>Hola <%= userFullName %></h2>
+    <h2>Hola <%= userFullName %> <img src="<%= img %>" alt="logo"></h2>
     <a href="/signout">Cerrar Sessión</a>
 <% } else { %>
     <a href="/signup">Crear Cuenta</a>
     <a href="/signin">Identificarse</a>
 <% } %>
 <br>
-<img src="<%= img %>" alt="logo">
+
  <section ng-include="'example/views/example.client.view.html'"></section>
  <script type="text/javascript" src="/lib/angular/angular.js"></script>
  <script type="text/javascript" src="/example/example.client.module.js"></script>
+ <script type="text/javascript" src="/example/controllers/example.client.controller.js"></script>
  <script type="text/javascript" src="/application.js"></script>
 
 </body>
