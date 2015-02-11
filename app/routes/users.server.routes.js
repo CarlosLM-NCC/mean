@@ -42,10 +42,10 @@ module.exports = function(app){
     app.get('/signout',users.signout);
     
     //Configura la ruta base para 'users'
-    app.route('/users')
+    app.route('/usus')
         .post(users.create)
         .get(users.list) ;
-    app.route('/users/:userId')
+    app.route('/usus/:userId')
         .get(users.read)
         .put(users.update)
         .delete(users.delete);

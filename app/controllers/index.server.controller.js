@@ -5,10 +5,10 @@ exports.render = function(req,res){
     }
     req.session.lastVisit = new Date();
 
-    
+    xxl = JSON.stringify(req.user);
     res.render('index',{
         title : 'Hola Mundo',
-        userFullName: req.user ? req.user.fullName : '',
+        user: req.user ? JSON.stringify(req.user) : '' ,
         img:  req.user ? req.user._doc.providerData.picture : ''
     });
 };
