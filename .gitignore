@@ -30,3 +30,4 @@ node_modules
 .idea
 # Data directory mongodb
 data
+config\env\development.js
