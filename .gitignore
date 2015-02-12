@@ -30,5 +30,4 @@ node_modules
 .idea
 # Data directory mongodb
 data
-app/config/env/development.js
-.gitignore
+config\env\development.js.gitignore
