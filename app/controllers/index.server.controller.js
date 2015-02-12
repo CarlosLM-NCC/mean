@@ -4,8 +4,6 @@ exports.render = function(req,res){
         console.log(req.session.lastVisit);        
     }
     req.session.lastVisit = new Date();
-
-    xxl = JSON.stringify(req.user);
     res.render('index',{
         title : 'Hola Mundo',
         user: req.user ? JSON.stringify(req.user) : '' ,

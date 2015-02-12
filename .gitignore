@@ -31,3 +31,4 @@ node_modules
 # Data directory mongodb
 data
 config\env\development.js.gitignore
+tests
