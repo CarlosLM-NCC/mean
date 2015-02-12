@@ -133,13 +133,6 @@ exports.saveOAuthUserProfile = function(req, profile, done){
         }
     });
 };
-// Crea el método controller para el signing out
-exports.signout = function(req,res){
-    //Usa el método logout de passport para hacer logout
-    req.logout();
-    //Redirecciona a la página principal de la aplicación
-    res.redirect('/');
-};
 
 // Cargar un nuevo método controller 'create'
 exports.create = function(req,res,next){
@@ -215,3 +208,21 @@ exports.delete = function(req,res,next){
     });
     
 };
+// Crea el método controller para el signing out
+exports.signout = function(req,res){
+    //Usa el método logout de passport para hacer logout
+    req.logout();
+    //Redirecciona a la página principal de la aplicación
+    res.redirect('/');
+};
+//Crea un nuevo middleware controller que es usado para autorizar operaciones con artículos
+exports.(req,res,next){
+    //Si un usuario no está autentificado envía el mensaje de error apropiado
+    if (!req.isAuthenticated()){
+        return res.status(401).send({
+            message: 'Usuario no está identificado'            
+        });
+    }
+    //llama al siguiente middleware
+    next();
+}
