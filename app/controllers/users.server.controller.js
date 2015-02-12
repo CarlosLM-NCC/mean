@@ -216,7 +216,7 @@ exports.signout = function(req,res){
     res.redirect('/');
 };
 //Crea un nuevo middleware controller que es usado para autorizar operaciones con artículos
-exports.(req,res,next){
+exports.requiresLogin = function(req,res,next){
     //Si un usuario no está autentificado envía el mensaje de error apropiado
     if (!req.isAuthenticated()){
         return res.status(401).send({
