@@ -1,0 +1,21 @@
+<section data-ng-controller="ArticlesController" data-ng-init="findOne()">
+    <h1>Editar artículo</h1>
+    <!--El formulario artículo editado-->
+    <form data-ng-submit="update()" novalidate>
+        <div>
+            <label for="titulo">Título</label>
+            <div>
+                <input type="text" data-ng-model="article.titulo" id="titulo" placeholder="Titulo" required>
+            </div>
+        </div>
+        <div>
+            <label for="contenido">Contenido</label>
+            <div>
+                <textarea data-ng-model="article.contenido" id="contenido" cols="30" rows="10" placeholder="Contenido"></textarea>
+            </div>
+        </div>
+        <div>
+            <input type="submit" value="Actualizar">
+        </div>
+    </form>
+</section> 
