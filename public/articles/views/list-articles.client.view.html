@@ -7,9 +7,14 @@
             <a data-ng-href="#!/articles/{{article._id}}" data-ng-bind="article.titulo"></a>
             <br>
             <small data-ng-bind="article.creado |date:'medium'"></small>
-            <small></small>
-            <small data-ng-bind="article.creador.fullName"></small>
+
+            <small data-ng-bind="'por ' +article.creador.firstName+' '+ article.creador.lastName"></small>
             <p data-ng-bind="article.contenido"></p>
+            <!-- Mostrar los botones de edición para el creador del artículo -->
+            <div data-ng-show="authentication.user._id == article.creador._id">
+                <a href="/#!/articles/{{article._id}}/edit">editar</a>
+                <a href="/#!/articles" data-ng-click="delete(article);">borrar</a>
+            </div>
         </li>
     </ul>
     <!--Si no hay artículos en la lista, sugerimos al usuario que cree un nuevo artículo-->

@@ -1,4 +1,16 @@
 <section ng-controller=ExampleController>
-    <input type="text" id="text1" ng-model="name">
-    <input type="text" id="text2" ng-model="fullName">
+    <div data-ng-show="!authentication.user">
+        <a href="/signup">Crear Cuenta</a>
+        <a href="/signin">Identificarse</a>
+    </div>
+    <div data-ng-show="authentication.user">
+        <img src="{{authentication.user.providerData.picture}}" >
+        <h1>Hello <span data-ng-bind="authentication.user.providerData.name"></span> </h1>
+        <a href="/signout">Cerrar sesión</a>
+        <ul>
+            <li><a href="/#!/articles">Listar artículos</a> </li>
+            <li><a href="/#!/articles/create">Crear Artículo</a> </li>
+        </ul>
+    </div>
+
 </section>
